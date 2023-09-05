@@ -16,7 +16,7 @@
       </b-field>
       <b-field label="Image" v-if="mode === 'file'">
         <b-field class="file is-primary" :class="{'has-name': !!file}">
-          <b-upload v-model="file" accept=".jpg, .JPG, .png, .PNG, .jpeg, .JPEG" class="file-label" validation-message="Only jpg, jpeg and png are allowed" :disabled="loading" required name="file">
+          <b-upload v-model="file" accept=".jpg, .png, .jpeg, .webp, .gif" class="file-label" validation-message="Only jpg, jpeg and png are allowed" :disabled="loading" required name="file">
             <span class="file-cta">
               <b-icon class="file-icon" icon="upload"></b-icon>
               <span class="file-label">Click to upload</span>
@@ -27,11 +27,14 @@
           </b-upload>
         </b-field>
       </b-field>
+      <b-field label="URL">
+        <b-input v-model="category.slug" placeholder="Your category will be located here" disabled required></b-input>
+      </b-field>
       <b-field label="Name">
-        <b-input v-model="category.name" placeholder="Enter the category name" :disabled="loading" required></b-input>
+        <b-input v-model="category.name" @blur="generateSlug" placeholder="Enter the category name" :disabled="loading" required></b-input>
       </b-field>
       <b-field label="Message">
-        <b-input maxlength="200" type="textarea" v-model="category.desc"></b-input>
+        <b-input maxlength="700" type="textarea" v-model="category.description"></b-input>
       </b-field>
       <b-button native-type="submit" type="is-primary" :loading="loading">Submit</b-button>
     </form>
@@ -40,18 +43,29 @@
 </template>
 
 <script>
+import { uuid } from 'vue-uuid'
+import { mapState } from 'vuex';
+
 export default {
+  computed: {
+    ...mapState(['user']),
+  },
   data() {
     return {
       category: {
         name: '',
         imageURL: '',
-        desc: ''
+        description: '',
+        slug: ''
       },
+      id: '',
       mode: 'link',
       file: {},
       loading: false,
     };
+  },
+  mounted() {
+    this.id = uuid.v4().slice(0, 8);
   },
   methods: {
     async submit() {
@@ -63,7 +77,12 @@ export default {
           this.category.imageURL = cloudinaryLink;
         }
 
-        // await
+        await this.$axios.post('/create/category', this.category, {
+          headers: {
+            authorization: this.user.token,
+          },
+          credentials: true
+        });
 
         this.$buefy.snackbar.open({
           duration: 10000,
@@ -71,7 +90,7 @@ export default {
           type: 'is-success',
         });
 
-        this.mode === 'link' ? (this.image.link = '') : (this.file = {});
+        this.resetData();
       } catch (error) {
         this.$buefy.snackbar.open({
           duration: 5000,
@@ -109,6 +128,25 @@ export default {
         throw error;
       }
     },
+
+    generateSlug() {
+      const slug = this.category.name.toLowerCase().replace(/\s/g, "-") + "-" + this.id;
+      this.category.slug = slug
+    },
+
+    resetData() {
+      this.mode === 'link' ? (this.image.link = '') : (this.file = {});
+
+      this.category =  {
+        name: '',
+        imageURL: '',
+        description: '',
+        slug: ''
+      };
+
+      this.id = uuid.v4().slice(0, 8);
+    }
+
   },
 };
 </script>
