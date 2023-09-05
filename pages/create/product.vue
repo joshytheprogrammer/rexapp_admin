@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <CreateProduct />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <CreateCategory />
   </div>
 </template>
 
