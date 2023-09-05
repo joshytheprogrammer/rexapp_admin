@@ -33,6 +33,7 @@ export const actions = {
   async logout({ commit }) {
     localStorage.removeItem('user'); // Remove the user item from local storage
     commit('RESET_STORE');
+    this.$router.push('/login')
   },
 }
 

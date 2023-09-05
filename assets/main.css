@@ -4,9 +4,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow-x: hidden;
+
 }
 
 html, body {
+  overflow-x: hidden;
   font-family: 'Exo 2', sans-serif;
 }
