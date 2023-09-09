@@ -135,7 +135,7 @@ export default {
     },
 
     resetData() {
-      this.mode === 'link' ? (this.image.link = '') : (this.file = {});
+      this.mode === 'link' ? (this.category.imageURL = '') : (this.file = {});
 
       this.category =  {
         name: '',
