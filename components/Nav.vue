@@ -19,11 +19,14 @@
         </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-dropdown label="View">
-        <b-navbar-item href="/view/gallery">
+        <!-- <b-navbar-item href="/view/gallery">
           Images
         </b-navbar-item>
         <b-navbar-item href="/view/clips">
           Clips
+        </b-navbar-item> -->
+        <b-navbar-item href="/view/orders/">
+          Orders
         </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item href="/#" @click.prevent="logout">
