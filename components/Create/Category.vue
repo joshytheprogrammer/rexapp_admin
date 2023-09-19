@@ -104,7 +104,7 @@ export default {
 
     async uploadToCloudinary() {
       try {
-        if (this.file.size >= 512000) {
+        if (this.file.size >= 1024000) {
           throw new Error('File should be less than 500kb');
         }
 
