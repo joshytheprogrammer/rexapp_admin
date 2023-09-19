@@ -181,7 +181,7 @@ export default {
     async uploadToCloudinary() {
       try {
         if (this.file.size >= 1024000) {
-          throw new Error('File should be less than 500kb');
+          throw new Error('File should be less than 1MB');
         }
 
         const formData = new FormData();
