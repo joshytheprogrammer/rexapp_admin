@@ -49,7 +49,7 @@
       </b-field>
       <b-field label="Manufacturer">
         <!-- <b-input v-model="product.manufacturer" @blur="generateSlug" placeholder="Who made the product" :disabled="loading" required></b-input> -->
-        <b-select placeholder="Select a name">
+        <b-select v-model="product.manufacturer" placeholder="Select a name">
           <option value="Toyota">Toyota</option>
           <option value="Lexus">Lexus</option>
           <option value="Mercedes Benz">Mercedes Benz</option>
